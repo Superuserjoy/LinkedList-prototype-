@@ -2,24 +2,37 @@
 using namespace std;
 struct node{
     int data;
-    node* next;
-    node():data(0),next(nullptr){};
-    node(int a):data(a),next(nullptr){};
-    
+    node* fore = nullptr;
+    node* next = nullptr;
 };
 class linkedList{
-  private:
-    node *first;
+  node* first=nullptr;
+  node* last=nullptr;
   public:
-    linkedList():first(0){};
     void printAll();
     void pushBack(int pushValue);
+    void pushFront(int pushValue);
+    void Delete(int deleteValue);
+    void clear();
   
 };
+void linkedList::pushFront(int pushValue){
+  node* tempNode = new node;
+  tempNode->data=pushValue;
+  if(first==nullptr){
+    first=tempNode;
+    last=first;
+  }
+  else{
+    first->fore=tempNode;
+    tempNode->next=first;
+    first=tempNode;
 
+  }
+}
 void linkedList::printAll(){
   node* current=first;
-  if(first==NULL){
+  if(first==nullptr){
     cout<<"none";
   }
   else{
@@ -32,19 +45,38 @@ void linkedList::printAll(){
 
   
 }
+void linkedList::clear(){
+  if(first==nullptr){
+    cout<<"No item inside";
+  }
+  else{
+    if(first->next==nullptr){
+      delete first;
+    }
+    else{
+      while(first!=nullptr){
+        node* current = first;
+        first=first->next;
+        delete current;
+      }
+    }
+
+  }
+
+}
 
 void linkedList::pushBack(int pushValue){
-  node* tempNode = new node(pushValue);
+  node* tempNode = new node;
+  tempNode->data=pushValue;
   if(first==nullptr){
     first = tempNode;
+    last = tempNode;
   }
   
   else{
-    node* current = first;
-    while(current->next!=nullptr){
-      current=current->next;
-    }
-    current->next=tempNode;
+    tempNode->fore=last;
+    last->next=tempNode;
+    last=tempNode;
   }
   
   
@@ -52,6 +84,9 @@ void linkedList::pushBack(int pushValue){
 
 int main(){
   linkedList test;
+  test.pushBack(1);
+  test.pushBack(3);
   test.printAll();
-
+  test.clear();
+  test.printAll();
 }
